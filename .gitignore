@@ -1,0 +1,5 @@
+data/
+results/figures/
+__pycache__/
+website/__pycache__/
+*.pyc

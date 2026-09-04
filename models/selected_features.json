@@ -1,0 +1,19 @@
+{
+    "lstm_selected_features": [
+        "sensor13",
+        "sensor11",
+        "sensor15",
+        "sensor4",
+        "sensor14",
+        "sensor9",
+        "sensor8",
+        "sensor2",
+        "sensor12",
+        "sensor3",
+        "sensor7",
+        "sensor21",
+        "sensor20",
+        "sensor17",
+        "sensor6"
+    ]
+}

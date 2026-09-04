@@ -1,0 +1,9 @@
+{
+    "mse": 386.48388671875,
+    "rmse": 19.659193440188485,
+    "mae": 14.545917510986328,
+    "r2": 0.5996410846710205,
+    "learning_rate": 0.001,
+    "rul_cap": 125,
+    "note": "evaluation corrigee: RUL de test base sur RUL_FD002.txt officiel"
+}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Méthodologie{% endblock %}
+{% block content %}
+
+<div class="eyebrow">Méthodologie</div>
+<h1 class="section-title" style="font-size:1.9rem;">Comment fonctionnent les modèles</h1>
+<p class="section-subtitle">
+  PrognosIA s'appuie sur le jeu de données NASA C-MAPSS (sous-ensemble FD002),
+  qui simule la dégradation de moteurs d'avion sous plusieurs régimes opérationnels.
+</p>
+
+<h2 class="section-title" style="font-size:1.2rem;">Classification — état sain / critique</h2>
+<p>
+  Trois modèles ont été entraînés et comparés (Random Forest, XGBoost, SVM) pour
+  prédire si un moteur est en état critique (moins de 30 cycles avant la panne)
+  à partir des 21 capteurs, des 3 réglages opérationnels et du régime détecté.
+</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Modèle</th>
+        <th>Accuracy</th>
+        <th>Précision</th>
+        <th>Rappel</th>
+        <th>F1-score</th>
+        <th>ROC-AUC</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, label in model_labels.items() %}
+        {% set m = classification_metrics.get(key) %}
+        {% if m %}
+        <tr>
+          <td>{{ label }}</td>
+          <td>{{ '%.3f'|format(m.accuracy) }}</td>
+          <td>{{ '%.3f'|format(m.precision) }}</td>
+          <td>{{ '%.3f'|format(m.recall) }}</td>
+          <td>{{ '%.3f'|format(m.f1) }}</td>
+          <td>{{ '%.3f'|format(m.roc_auc) }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 class="section-title" style="font-size:1.2rem; margin-top:36px;">Prévision RUL — réseau LSTM</h2>
+<p>
+  La durée de vie restante (Remaining Useful Life) est prédite par un ensemble de
+  réseaux LSTM entraînés par validation croisée, sur une fenêtre de
+  {{ sequence_length }} cycles et les {{ lstm_features|length }} capteurs les plus
+  informatifs, sélectionnés par importance (Random Forest) :
+</p>
+
+<p>
+  {% for feat in lstm_features %}<span class="badge" style="background:#0f6e6c; margin:2px;">{{ feat }}</span>{% endfor %}
+</p>
+
+<div class="table-wrap" style="margin-top:16px;">
+  <table>
+    <thead>
+      <tr>
+        <th>MAE</th>
+        <th>RMSE</th>
+        <th>R²</th>
+        <th>Plafond RUL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ '%.2f'|format(rul_metrics.get('mae', 0)) }} cycles</td>
+        <td>{{ '%.2f'|format(rul_metrics.get('rmse', 0)) }} cycles</td>
+        <td>{{ '%.3f'|format(rul_metrics.get('r2', 0)) }}</td>
+        <td>{{ rul_cap }} cycles</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

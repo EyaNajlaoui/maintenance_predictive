@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}PrognosIA{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Maintenance prédictive</div>
+    <h1>Anticipez les pannes moteur avant qu'elles ne surviennent.</h1>
+    <p class="lead">
+      PrognosIA combine un modèle de classification (état sain / critique) et un
+      modèle de prévision de durée de vie restante (RUL) pour aider à planifier
+      la maintenance des moteurs, à partir de leurs données capteurs.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="{{ url_for('diagnostic') }}">Lancer un diagnostic</a>
+      <a class="btn btn-secondary" href="{{ url_for('methodologie') }}">Voir la méthodologie</a>
+    </div>
+  </div>
+
+  <div class="hero-panel">
+    <h3>Performance des modèles</h3>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="value">{{ '%.1f'|format((classification_metrics.get('accuracy', 0) * 100)) }}%</div>
+        <div class="label">Précision classification</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ '%.2f'|format(classification_metrics.get('roc_auc', 0)) }}</div>
+        <div class="label">ROC-AUC</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ '%.2f'|format(rul_metrics.get('r2', 0)) }}</div>
+        <div class="label">R² prévision RUL</div>
+      </div>
+      <div class="stat">
+        <div class="value">±{{ '%.0f'|format(rul_metrics.get('mae', 0)) }}</div>
+        <div class="label">Cycles d'erreur moyenne (MAE)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Deux modèles, une seule décision</h2>
+  <p class="section-subtitle">Un diagnostic complet nécessite de savoir où en est le moteur aujourd'hui, et combien de temps il lui reste.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card__icon">1</div>
+      <h3>Diagnostic d'état</h3>
+      <p>
+        Un modèle de classification (XGBoost) analyse les mesures capteurs et les
+        réglages opérationnels pour déterminer si le moteur est dans un état
+        <strong>sain</strong> ou <strong>critique</strong>.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card__icon">2</div>
+      <h3>Prévision RUL</h3>
+      <p>
+        Un réseau de neurones LSTM estime le nombre de cycles restants avant la
+        panne (Remaining Useful Life), à partir de l'évolution récente des
+        capteurs les plus significatifs.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card__icon">3</div>
+      <h3>Paramètres ajustables</h3>
+      <p>
+        Sur la page Diagnostic, chaque paramètre (capteurs, réglages moteur) est
+        modifiable librement pour simuler différents scénarios et observer leur
+        impact sur la prévision.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
