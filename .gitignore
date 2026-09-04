@@ -3,3 +3,5 @@ results/figures/
 __pycache__/
 website/__pycache__/
 *.pyc
+models/classifier_randomforest.pkl
+models/classifier_svm.pkl
