@@ -129,8 +129,8 @@ st.markdown("""
   --color-bg: #f5f7f8;
   --color-surface: #ffffff;
   --color-border: #e2e8ea;
-  --color-text: #1c2b2e;
-  --color-text-muted: #5b6b6e;
+  --color-text: #0f1a1c;
+  --color-text-muted: #3f4d50;
   --color-primary: #0f6e6c;
   --color-primary-dark: #0b524f;
   --color-primary-soft: #e6f2f1;
@@ -142,7 +142,8 @@ st.markdown("""
   --radius: 10px;
 }
 html, body, [class*="css"] { font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
-.stApp { background: var(--color-bg); }
+.stApp { background: var(--color-bg); color: var(--color-text); }
+.stApp p, .stApp li, .stApp h1, .stApp h2, .stApp h3, .stApp h4 { color: var(--color-text); }
 #MainMenu, footer, header { visibility: hidden; }
 
 .eyebrow {
@@ -208,7 +209,10 @@ html, body, [class*="css"] { font-family: "Segoe UI", "Helvetica Neue", Arial, s
 }
 
 table.custom { width: 100%; border-collapse: collapse; font-size: .92rem; background: var(--color-surface); }
-table.custom th, table.custom td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--color-border); }
+table.custom th, table.custom td {
+  text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
 table.custom th {
   background: var(--color-bg); color: var(--color-text-muted); font-size: .76rem;
   text-transform: uppercase; letter-spacing: .03em;
